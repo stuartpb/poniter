@@ -33,9 +33,9 @@ Events an element can listen to for the introduction of a pointer: listening
 within the scope of one of these events will scope the listener to that
 pointer.
 
-### enter
+### upenter
 
-The `enter` event is fired when a pointer enters an element's hit-space, either
+The `upenter` event is fired when a pointer enters an element's hit-space, either
 by hovering over it or touching it (the latter event being followed by a `down`
 event).
 
@@ -43,34 +43,34 @@ This should not be used for hover effects unless they are pointer-specific
 (such as expecting a drop): see the `hover` event for a multi-pointer-ready
 hover event.
 
-Handlers for this event may listen for `down`, `graze`, or `leave` events.
+Handlers for this event may listen for `down`, `upmove`, or `upleave` events.
 
 ### down
 
-This will clear any `graze` listener.
+This will clear any `upmove` listener.
 
-Handlers for this event may listen for `drag`, `drop`, `leave`, `reenter`, and
-`release` events.
+Handlers for this event may listen for `downmove`, `downup`, `downleave`,
+`downenter`, and `release` events.
 
 ## Pointer continuations
 
-### graze
+### upmove
 
 Fired when the pointer moves after entering an element (after being listened
-for in an `enter` event).
+for in an `upenter` event).
 
-Handlers for this event may listen for `leave` events.
+Handlers for this event may listen for `upleave` events.
 
-### drag
+### downmove
 
 Fired when the pointer moves after a `down` event on the element, until the
-pointer is released (potentially triggering a `drop` event, followed by a
+pointer is released (potentially triggering a `downup` event, followed by a
 guaranteed `release` event).
 
-Handlers for this event may listen for `drop`, `leave`, `reenter`, and
+Handlers for this event may listen for `downup`, `downleave`, `downenter`, and
 `release` events.
 
-### reenter
+### downenter
 
 Fired when the pointer comes over an element being dragged that was previously
 the target of a `down` event.
@@ -80,39 +80,46 @@ the target of a `down` event.
 The following events will only occur once for a pointer without a corresponding
 initial event.
 
-### drop
+### downup
 
-This is listenable from a `down` event, and clears the `drag` listener
-(as well as the `drop` listener).
+This is listenable from a `down` or `downmove` event, and clears the
+`downmove` listener (as well as the `downup` listener).
 
 This event is not guaranteed to fire after `down`, as a pointer may be
 cancelled (eg. by a touchpad's palm rejection). See notes for `release`.
 
 This event *does* fire after an element is clicked; if you wish to have a
 different behavior on click for the element without triggering the drag
-behavior, it is best to only set a drop behavior within a `drag` listener,
+behavior, it is best to only set a drop behavior within a `downmove` listener,
 making sure that the cursor has moved significantly.
 
-The `drag` and `drop` events are cleared after the `release` event fires
+The `downmove` and `downup` events are cleared after the `release` event fires
 or would be fired.
 
-### leave
+### upleave
 
-This is the counterpart to `over`. For pointers that don't hover, this event
-will be fired before `release`.
+This is the counterpart to `upenter`. For pointers that don't hover, `upleave`
+will be fired after `downup` and before `release`. This clears the `upleave`
+listener.
 
-This will fire *as soon as the pointer leaves the element*: if you do not move
-the element to be under the cursor in a `drag` handler, this event will fire.
+### downleave
 
-As such, this does *not* clear the `drag` listener. It does clear the `graze`
-listener, as well as the `leave` listener.
+This is the counterpart to `downenter`, and will first come *before*
+any `downenter` event (following the initial `down` event).
+
+This will fire *as soon as the pointer leaves the element* while dragging: if
+you do not move the element to be under the cursor in a `downmove` handler, the
+`downleave` event will fire.
+
+As such, this does *not* clear the `downmove` listener. It does clear the
+`upmove` listener.
 
 ### release
 
-This is listenable from a `down` event.
+This is listenable from a `down` or `downmove` event.
 
-This may or may not follow a drop event: if this is fired without a
-corresponding `drop`, the interaction should be treated as cancelled.
+This may or may not follow a `downup` event: if this is fired without a
+corresponding `downup`, the interaction should be treated as cancelled.
 
-This clears the `drag` and (whether called or not) `drop` listeners, as well as
-itself.
+This clears the `downmove` and (whether called or not) `downup` listeners, as
+well as itself.
