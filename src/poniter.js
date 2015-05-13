@@ -140,7 +140,7 @@ function eventToSVGPoint(evt, prefix) {
   prefix = prefix || 'client';
   pt.x = prefix.x ? prefix.x : evt[prefix + 'X'];
   pt.y = prefix.y ? prefix.y : evt[prefix + 'Y'];
-  clientPointToSVGPoint(pt, svg);
+  return clientPointToSVGPoint(pt, svg);
 }
 
 poniter.svgPoint = {
