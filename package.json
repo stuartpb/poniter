@@ -1,0 +1,30 @@
+{
+  "name": "poniter",
+  "version": "0.1.0",
+  "description": "A pointer event router with helper functions for positioning.",
+  "main": "poniter.js",
+  "scripts": {
+    "watch": "babel src/poniter.js --watch -o poniter.js -s --compact=true",
+    "prepublish": "babel src/poniter.js -o poniter.js -s --compact=true",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stuartpb/poniter.git"
+  },
+  "keywords": [
+    "pointer",
+    "touch",
+    "mouse",
+    "event"
+  ],
+  "author": "Stuart P. Bentley <stuart@testtrack4.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stuartpb/poniter/issues"
+  },
+  "homepage": "https://github.com/stuartpb/poniter",
+  "devDependencies": {
+    "babel": "^4.7.12"
+  }
+}
