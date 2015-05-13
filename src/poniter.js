@@ -129,6 +129,25 @@ poniter.listen = function PoniterListener(element) {
   return listenObject;
 };
 
+function clientPointToSVGPoint(pt, svg) {
+  return pt.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+function eventToSVGPoint(evt, prefix) {
+  let svg = evt.target.ownerSVGElement;
+  let pt = svg.createSVGPoint();
+  if (prefix === '') prefix = {x: evt.x, y: evt.y};
+  prefix = prefix || 'client';
+  pt.x = prefix.x ? prefix.x : evt[prefix + 'X'];
+  pt.y = prefix.y ? prefix.y : evt[prefix + 'Y'];
+  clientPointToSVGPoint(pt, svg);
+}
+
+poniter.svgPoint = {
+  fromClientPoint: clientPointToSVGPoint,
+  fromEvent: eventToSVGPoint
+};
+
 if(typeof module != "undefined") {
   module.exports = poniter;
 } else {
