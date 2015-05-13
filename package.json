@@ -1,6 +1,6 @@
 {
   "name": "poniter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A pointer event router with helper functions for positioning.",
   "main": "poniter.js",
   "scripts": {
