@@ -51,7 +51,6 @@ poniter.listen = function PoniterListener(element) {
 
   element.addEventListener('pointerenter', evt => {
     let state = trackedPointerState(evt.pointerId);
-    state.inside = true;
     fireProxyAtListener('enter', evt, state);
   });
 
@@ -82,6 +81,7 @@ poniter.listen = function PoniterListener(element) {
     let state = trackedPointerState(evt.pointerId);
     state.down = false;
     fireProxyAtListener('up', evt, state);
+    if (!state.captured) trackedPointerStates.delete(evt.pointerId);
   });
 
   element.addEventListener('pointercancel', evt => {
@@ -97,26 +97,16 @@ poniter.listen = function PoniterListener(element) {
   element.addEventListener('lostpointercapture', evt => {
     let state = trackedPointerStates.get(evt.pointerId);
     if (state) {
-      if (state.inside) state.captured = false;
+      if (state.down) state.captured = false;
       else trackedPointerStates.delete(evt.pointerId);
     }
   });
 
   element.addEventListener('pointerleave', evt => {
-    let state = trackedPointerStates.get(evt.pointerId);
-    if (state) {
-      if (state.captured) {
-        state.inside = false;
-      }
-
-      fireProxyAtListener('leave', evt, state);
-
-      if (!state.captured) {
-        trackedPointerStates.delete(evt.pointerId);
-      }
-    } else if (elementListeners.leave) {
-      elementListeners.leave(evt);
-    }
+    let state = trackedPointerState(evt.pointerId);
+    fireProxyAtListener('leave', evt, state);
+    if (!state.captured && !state.down)
+      trackedPointerStates.delete(evt.pointerId);
   });
 
   let listenObject = {
