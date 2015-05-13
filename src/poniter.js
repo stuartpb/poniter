@@ -86,7 +86,9 @@ poniter.listen = function PoniterListener(element) {
 
   element.addEventListener('pointercancel', evt => {
     let state = trackedPointerState(evt.pointerId);
+    state.down = false;
     fireProxyAtListener('cancel', evt, state);
+    if (!state.captured) trackedPointerStates.delete(evt.pointerId);
   });
 
   element.addEventListener('gotpointercapture', evt => {
