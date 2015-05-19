@@ -17,7 +17,7 @@ poniter.listen = function PoniterListener(element) {
     else {
       state = {
         down: false,
-        inside: false,
+        captured: false,
         listeners: {}
       };
       trackedPointerStates.set(pointerId,state);
@@ -33,7 +33,7 @@ poniter.listen = function PoniterListener(element) {
       proxy.downX = state.downX;
       proxy.downY = state.downY;
     }
-    proxy.inside = state.inside;
+    proxy.captured = state.captured;
     proxy.pon = (evtName, cb) => {
       state.listeners[evtName] = cb;
       return proxy;

@@ -2,10 +2,10 @@
   "name": "poniter",
   "version": "0.3.1",
   "description": "A pointer event router with helper functions for positioning.",
-  "main": "poniter.js",
+  "main": "dist/poniter.js",
   "scripts": {
-    "watch": "babel src/poniter.js --watch -o poniter.js -s --compact=true",
-    "prepublish": "babel src/poniter.js -o poniter.js -s --compact=true",
+    "watch": "babel src/poniter.js --watch -o dist/poniter.js -s --compact=true",
+    "prepublish": "babel src/poniter.js -o dist/poniter.js -s --compact=true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
