@@ -4,8 +4,8 @@
   "description": "A pointer event router with helper functions for positioning.",
   "main": "poniter.js",
   "scripts": {
-    "watch": "cd src; exec babel poniter.js --watch -o ../poniter.js -s --compact=true",
-    "prepublish": "cd src; exec babel poniter.js -o ../poniter.js -s --compact=true",
+    "watch": "babel src/poniter.js --watch -o poniter.js -s --compact=true",
+    "prepublish": "babel src/poniter.js -o poniter.js -s --compact=true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
