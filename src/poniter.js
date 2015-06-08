@@ -26,7 +26,17 @@ poniter.listen = function PoniterListener(element) {
   }
 
   function eventProxy(evt, state) {
-    let proxy = Object.create(evt);
+    let proxy = Object.create(evt,
+      { // see https://github.com/stuartpb/poniter/issues/2
+        target: {
+          value: evt.target,
+          writable: false
+        },
+        type: {
+          value: evt.type,
+          writable: false
+        }
+      });
     //proxy.state = state;
     proxy.down = state.down;
     if (state.down) {
